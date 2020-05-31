@@ -20,8 +20,8 @@ public class ItemUtil {
 
 
 
-	public static void loot(String[] name) {	
-		
+	public static void loot(String[] name) {
+
 		RSGroundItem[] itemsOnGround = GroundItems.findNearest(name);
 		if (itemsOnGround != null && itemsOnGround.length > 0) {
 			for (RSGroundItem item : itemsOnGround) {
@@ -65,7 +65,7 @@ public class ItemUtil {
 	}
 
 
-	
+
 	public static boolean hasItem(int... ids) {
 		RSItem[] item = Inventory.find(ids);
 		return item != null && item.length > 0;

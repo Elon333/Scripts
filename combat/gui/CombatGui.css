@@ -1,0 +1,11 @@
+.root {
+    -fx-background-image:url(https://i.imgur.com/67OkR2B.png);
+-fx-control-inner-background: rgb(20, 20, 20);
+}
+.circleCheckBox > .box{
+	-fx-padding: 30px;
+}
+.text-area .content {
+    -fx-background-color:  #616161;
+}
+

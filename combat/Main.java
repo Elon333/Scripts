@@ -9,9 +9,12 @@ import java.util.List;
 
 import org.tribot.api.General;
 import org.tribot.api.Timing;
+import org.tribot.api2007.Login;
+import org.tribot.api2007.Login.STATE;
 import org.tribot.script.Script;
 import org.tribot.script.ScriptManifest;
 import org.tribot.script.interfaces.Ending;
+import org.tribot.script.interfaces.EventBlockingOverride;
 import org.tribot.script.interfaces.Painting;
 import org.tribot.script.interfaces.Starting;
 
@@ -21,7 +24,6 @@ import scripts.combat.data.Vars;
 import scripts.combat.gui.GUI;
 import scripts.combat.gui.GuiFXML;
 import scripts.combat.paint.Paint;
-
 import scripts.combat.tasks.Bank;
 import scripts.combat.tasks.Fight;
 import scripts.combat.tasks.Travel;
@@ -32,15 +34,15 @@ import scripts.utilty.AntiBan;
 import scripts.utilty.Timer;
 
 @ScriptManifest(authors = { "ELON" }, category = "combat", name = "Elon aio combat")
-public class Main extends Script implements Starting, Ending, Painting {
+public class Main extends Script implements Starting, Ending,EventBlockingOverride, Painting {
 
 	private List<Node> combatNodes = Arrays.asList(new Bank(), new Travel(), new Fight());
 
-	private Timer safteyTimer = new Timer(General.random(480000, 600000));
+	private Timer timeoutTimer = new Timer(General.random(480000, 600000));
 
 	private GUI gui;
 	private URL css;
-
+	private boolean paint;
 
 
 	@Override
@@ -59,7 +61,9 @@ public class Main extends Script implements Starting, Ending, Painting {
 
 	@Override
 	public void run() {
+
 		Utils2.createFolder();
+		Utils2.createImageFolder();
 
 		css = Utils2.createCssFile();
 		gui = new GUI(GuiFXML.get, css);
@@ -70,9 +74,15 @@ public class Main extends Script implements Starting, Ending, Painting {
 			sleep(500);
 		}
 
-        Utils2.recordExp();
-		
-		while (Vars.get().script && safteyTimer.isRunning()) {
+		// we need the account to be logged in for the next step
+		while (Login.getLoginState() != STATE.INGAME)
+			sleep(500);
+
+		paint = true;
+		Utils2.recordStartExp();
+		Paint.getPaintBackgroundLayout();
+
+		while (Vars.get().script && timeoutTimer.isRunning()) {
 
 			for (final Node node : combatNodes) {
 
@@ -80,8 +90,8 @@ public class Main extends Script implements Starting, Ending, Painting {
 
 					Utils2.recordExp();
 
-					if (Vars.get().nodeName != node.getName()) {
-						safteyTimer.reset();
+				 if (!Vars.get().nodeName.equals(node.getName())) {
+						timeoutTimer.reset();
 						General.println(node.getName());
 					}
 
@@ -90,9 +100,9 @@ public class Main extends Script implements Starting, Ending, Painting {
 					node.execute();
 
 					if (Utils2.checkExp())
-						safteyTimer.reset();
+						timeoutTimer.reset();
 
-					if (!safteyTimer.isRunning()) {
+					if (!timeoutTimer.isRunning()) {
 						General.println("Script Timed Out");
 						Vars.get().script = false;
 					}
@@ -116,10 +126,28 @@ public class Main extends Script implements Starting, Ending, Painting {
 
 	@Override
 	public void onPaint(Graphics g) {
-		Paint.paint(g);
+		if (paint)
+			Paint.paint(g);
 	}
 
 
 
-	
+	@Override
+	public OVERRIDE_RETURN overrideKeyEvent(KeyEvent arg0) {
+		return null;
+	}
+
+
+
+	@Override
+	public OVERRIDE_RETURN overrideMouseEvent(MouseEvent e) {
+		if (e.getButton() == 1) {
+			if (Paint.closeButtonArea.contains(e.getPoint()))
+				paint = false;
+		}
+		return OVERRIDE_RETURN.PROCESS;
+	}
+
+
+
 }

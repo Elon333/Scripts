@@ -20,7 +20,7 @@ import org.tribot.api2007.types.RSTile;
 public class CombatUtil {
 
 	public static boolean checkForAgroNpc() {
-		
+
 		RSCharacter interacting = Player.getRSPlayer().getInteractingCharacter();
 
 		if (interacting != null) {
@@ -45,90 +45,79 @@ public class CombatUtil {
 		return Combat.isUnderAttack();
 	}
 
-	
-	
+
+
 	public static void clickAttack() {
-	if (ChooseOption.select("Attack")) 
-		Utils.waitCondtion(() -> Combat.isUnderAttack());
+		if (ChooseOption.select("Attack"))
+			Utils.waitCondtion(() -> Combat.isUnderAttack());
 	}
-	
-		
-		
-	public static boolean clickTarget(RSNPC target) {		
-		
+
+
+
+	public static boolean clickTarget(RSNPC target) {
+
 		if (Game.getRunEnergy() > (General.random(20, 30)))
 			Options.setRunEnabled(true);
-		
+
 		RSCharacter interacting = Player.getRSPlayer().getInteractingCharacter();
 		if (interacting != null) {
 			checkForAgroNpc();
 		}
-		
+
 		if (target != null) {
 
 			if (!target.isClickable()) {
 				Camera.turnToTile(target);
 			}
-			
-			if (!Combat.isUnderAttack()){	
-					
-				if (target.isClickable()) {							
-					if (DynamicClicking.clickRSNPC(target, "attack")) 
-					return Utils.waitCondtion(() -> Combat.isUnderAttack());							
-			}else{ 
-					
-				RSTile targetPostion = target.getPosition();				
+
+			if (!Combat.isUnderAttack()) {
+
+				if (target.isClickable()) {
+					if (DynamicClicking.clickRSNPC(target, "attack"))
+						return Utils.waitCondtion(() -> Combat.isUnderAttack());
+				} else {
+
+					RSTile targetPostion = target.getPosition();
 					if (Walking.walkTo(targetPostion))
-						Utils.waitCondtion(() -> Player.getPosition().distanceTo(targetPostion) <= 2);		
+						Utils.waitCondtion(() -> Player.getPosition().distanceTo(targetPostion) <= 2);
 				}
-				}
+			}
 		}
 		return Combat.isUnderAttack();
 	}
 
 
-		
-	public static boolean waitUntilOutOfCombat(String name,int eatAt) {	
+
+	public static boolean waitUntilOutOfCombat(String name, int eatAt) {
 		int eatAtHP = eatAt + General.random(1, 10);
-		
-		 Timing.waitCondition(() -> {
-				General.sleep(100);
-				
-				AntiBan.timedActions();
-				
-				if (EatUtil.hpPercent() <= (eatAtHP)) {
-					EatUtil.eatFood();
-				}
-				
-				if (AntiBan.getShouldHover() && Mouse.isInBounds()) {
-					AntiBan.hoverNextNPC(name);
-					AntiBan.resetShouldHover();
-				}
-				
-				if (AntiBan.getShouldOpenMenu() && (Mouse.isInBounds() && (!ChooseOption.isOpen()))) {
-					AntiBan.openMenuNextNPC(name);
-				}
-				return !Combat.isUnderAttack() || !EatUtil.hasFood();
-			}, General.random(5000, 10000));
-			
-			AntiBan.resetShouldOpenMenu();
 
-			if (ChooseOption.isOpen() && !Combat.isUnderAttack() && EatUtil.hasFood()) {
-				CombatUtil.clickAttack();
+		Timing.waitCondition(() -> {
+			General.sleep(100);
+
+			AntiBan.timedActions();
+
+			if (EatUtil.hpPercent() <= (eatAtHP)) {
+				EatUtil.eatFood();
 			}
-			return !Combat.isUnderAttack();
+
+			if (AntiBan.getShouldHover() && Mouse.isInBounds()) {
+				AntiBan.hoverNextNPC(name);
+				AntiBan.resetShouldHover();
+			}
+
+			if (AntiBan.getShouldOpenMenu() && (Mouse.isInBounds() && (!ChooseOption.isOpen()))) {
+				AntiBan.openMenuNextNPC(name);
+			}
+			return !Combat.isUnderAttack() || !EatUtil.hasFood();
+		}, General.random(5000, 10000));
+
+		AntiBan.resetShouldOpenMenu();
+
+		if (ChooseOption.isOpen() && !Combat.isUnderAttack() && EatUtil.hasFood()) {
+			CombatUtil.clickAttack();
+		}
+		return !Combat.isUnderAttack();
 	}
-
-
-
-
-
-
-
-
-	
-
-
 
 
 

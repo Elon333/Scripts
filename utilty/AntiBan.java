@@ -965,6 +965,6 @@ public final class AntiBan {
 	}
 
 	private static void debug(Object message) {
-		System.out.println("[ABC2] " + message);
+		General.println("[ABC2] " + message);
 	}
 }

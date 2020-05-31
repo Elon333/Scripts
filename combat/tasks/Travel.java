@@ -5,8 +5,6 @@ import org.tribot.api2007.Player;
 import scripts.combat.data.Node;
 import scripts.combat.data.Vars;
 import scripts.dax_api.api_lib.DaxWalker;
-import scripts.utils.UtilEat;
-import scripts.utilty.ItemUtil;
 import scripts.utilty.Utils;
 
 

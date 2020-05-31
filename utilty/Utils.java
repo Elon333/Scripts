@@ -18,11 +18,12 @@ public class Utils {
 	private static List<Integer> abc2waitTimes = new ArrayList<>();
 	private static double FACTOR = 0.4;
 
+
 	public static boolean waitCondtion(BooleanSupplier condition) {
 		return Timing.waitCondition(() -> {
 			General.sleep(80, 350);
 			return (condition.getAsBoolean());
-		}, General.random(4200, 6500));
+		}, General.random(4000, 6000));
 	}
 
 
@@ -33,6 +34,7 @@ public class Utils {
 			return (condition.getAsBoolean());
 		}, General.random(min, max));
 	}
+
 
 
 	public static Integer getPlayerCount() {
@@ -55,8 +57,6 @@ public class Utils {
 			return null;
 		}
 	}
-
-	// auto retalite turn on method
 
 
 
@@ -88,13 +88,26 @@ public class Utils {
 	}
 
 
-	
+
 	public static void abc2ReactionSleep(long time) {
 		if (Combat.isUnderAttack())
-			return;	
+			return;
 		AntiBan.generateTrackers((int) (System.currentTimeMillis() - time), false);
 		abc2waitTimes.add(AntiBan.getReactionTime());
 		abc2waitTimes = Utils.sleep(abc2waitTimes);
+	}
+
+
+
+	public static String removeWord(String string, String word) {
+
+		if (string.contains(word)) {
+			String tempWord = word + " ";
+			string = string.replaceAll(tempWord, "");
+			tempWord = " " + word;
+			string = string.replaceAll(tempWord, "");
+		}
+		return string;
 	}
 
 

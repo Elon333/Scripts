@@ -7,6 +7,7 @@ public static String get = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
 		"<?import com.jfoenix.controls.JFXRadioButton?>\r\n" + 
 		"<?import javafx.scene.control.Button?>\r\n" + 
 		"<?import javafx.scene.control.CheckBox?>\r\n" + 
+		"<?import javafx.scene.control.ComboBox?>\r\n" + 
 		"<?import javafx.scene.control.Label?>\r\n" + 
 		"<?import javafx.scene.control.TextArea?>\r\n" + 
 		"<?import javafx.scene.control.TextField?>\r\n" + 
@@ -83,6 +84,7 @@ public static String get = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
 		"               </children></AnchorPane>\r\n" + 
 		"            <Pane fx:id=\"inventoryPane\" prefHeight=\"393.0\" prefWidth=\"600.0\" styleClass=\"root\">\r\n" + 
 		"               <children>\r\n" + 
+		"                  <Rectangle fx:id=\"lootTextAreaBorder\" arcHeight=\"5.0\" arcWidth=\"5.0\" fill=\"#1f93ff00\" height=\"200.0\" layoutX=\"288.0\" layoutY=\"43.0\" stroke=\"BLACK\" strokeType=\"INSIDE\" strokeWidth=\"6.0\" width=\"283.0\" />\r\n" + 
 		"                  <Button fx:id=\"getInventoryButton\" layoutX=\"11.0\" layoutY=\"337.0\" mnemonicParsing=\"false\" onAction=\"#getInventory\" prefHeight=\"50.0\" prefWidth=\"154.0\" style=\"-fx-background-color: #202225;\" text=\"Get Inventoy\" textFill=\"#616161\">\r\n" + 
 		"                     <font>\r\n" + 
 		"                        <Font name=\"System Bold\" size=\"14.0\" />\r\n" + 
@@ -105,7 +107,10 @@ public static String get = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
 		"                        <Font size=\"22.0\" />\r\n" + 
 		"                     </font>\r\n" + 
 		"                  </Label>\r\n" + 
-		"                  <TextArea fx:id=\"lootTextArea\" layoutX=\"293.0\" layoutY=\"47.0\" prefHeight=\"191.0\" prefWidth=\"274.0\" />\r\n" + 
+		"                  <TextArea fx:id=\"lootTextArea\" layoutX=\"293.0\" layoutY=\"47.0\" prefHeight=\"191.0\" prefWidth=\"274.0\">\r\n" + 
+		"                     <font>\r\n" + 
+		"                        <Font name=\"System Bold\" size=\"14.0\" />\r\n" + 
+		"                     </font></TextArea>\r\n" + 
 		"                  <Button fx:id=\"addItemButton\" layoutX=\"289.0\" layoutY=\"246.0\" mnemonicParsing=\"false\" onAction=\"#addItemToLootList\" prefHeight=\"38.0\" prefWidth=\"105.0\" style=\"-fx-background-color: #202225;\" text=\"Add Item\" textFill=\"#616161\">\r\n" + 
 		"                     <font>\r\n" + 
 		"                        <Font name=\"System Bold\" size=\"14.0\" />\r\n" + 
@@ -119,9 +124,48 @@ public static String get = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
 		"                        <Font size=\"14.0\" />\r\n" + 
 		"                     </font>\r\n" + 
 		"                  </TextField>\r\n" + 
-		"                  <Rectangle fx:id=\"lootTextAreaBorder\" arcHeight=\"5.0\" arcWidth=\"5.0\" fill=\"#1f93ff00\" height=\"200.0\" layoutX=\"288.0\" layoutY=\"43.0\" stroke=\"BLACK\" strokeType=\"INSIDE\" strokeWidth=\"6.0\" width=\"283.0\" />\r\n" + 
 		"                  <ImageView fx:id=\"inventoryImage\" fitHeight=\"318.0\" fitWidth=\"242.0\" layoutX=\"42.0\" layoutY=\"22.0\" pickOnBounds=\"true\" preserveRatio=\"true\" />\r\n" + 
 		"                  <ImageView fx:id=\"insideInventoryImage\" fitHeight=\"243.0\" fitWidth=\"175.0\" layoutX=\"67.0\" layoutY=\"58.0\" pickOnBounds=\"true\" preserveRatio=\"true\" />\r\n" + 
+		"                  <Label fx:id=\"InventoryInfoLabel\" layoutX=\"354.0\" layoutY=\"353.0\" text=\"Automatic support for skill boost Potions\" textFill=\"WHITE\" />\r\n" + 
+		"               </children>\r\n" + 
+		"            </Pane>\r\n" + 
+		"            <Pane id=\"misc_pane\" fx:id=\"miscPane\" prefHeight=\"393.0\" prefWidth=\"599.0\" styleClass=\"root\">\r\n" + 
+		"               <children>\r\n" + 
+		"                  <Label fx:id=\"eatAtTitle\" layoutX=\"100.0\" layoutY=\"80.0\" text=\"EAT AT\" textFill=\"#868585\">\r\n" + 
+		"                     <font>\r\n" + 
+		"                        <Font name=\"System Bold\" size=\"20.0\" />\r\n" + 
+		"                     </font>\r\n" + 
+		"                  </Label>\r\n" + 
+		"                  <ImageView fx:id=\"eatAtImage\" fitHeight=\"58.0\" fitWidth=\"65.0\" layoutX=\"14.0\" layoutY=\"66.0\" pickOnBounds=\"true\" preserveRatio=\"true\" />\r\n" + 
+		"                  <TextField fx:id=\"eatAtField\" layoutX=\"191.0\" layoutY=\"74.0\" prefHeight=\"42.0\" prefWidth=\"65.0\" style=\"-fx-background-color: #616161; -fx-border-color: black;\" text=\"45\">\r\n" + 
+		"                     <effect>\r\n" + 
+		"                        <InnerShadow />\r\n" + 
+		"                     </effect>\r\n" + 
+		"                     <font>\r\n" + 
+		"                        <Font size=\"14.0\" />\r\n" + 
+		"                     </font>\r\n" + 
+		"                  </TextField>\r\n" + 
+		"                  <Label fx:id=\"percentTitle\" layoutX=\"240.0\" layoutY=\"85.0\" text=\"\\%\" textFill=\"WHITE\">\r\n" + 
+		"                     <font>\r\n" + 
+		"                        <Font name=\"System Bold\" size=\"14.0\" />\r\n" + 
+		"                     </font>\r\n" + 
+		"                  </Label>\r\n" + 
+		"                  <CheckBox fx:id=\"enableABC2DelayCheckBox\" layoutX=\"21.0\" layoutY=\"197.0\" mnemonicParsing=\"false\" prefHeight=\"17.0\" prefWidth=\"225.0\" text=\"Enable ABC2 Delay\" textFill=\"#868585\">\r\n" + 
+		"                     <font>\r\n" + 
+		"                        <Font name=\"System Bold\" size=\"20.0\" />\r\n" + 
+		"                     </font>\r\n" + 
+		"                  </CheckBox>\r\n" + 
+		"                  <CheckBox fx:id=\"bankPotionCheckBox\" layoutX=\"21.0\" layoutY=\"258.0\" mnemonicParsing=\"false\" text=\"Bank When Out Of Potions\" textFill=\"#868585\">\r\n" + 
+		"                     <font>\r\n" + 
+		"                        <Font name=\"System Bold\" size=\"20.0\" />\r\n" + 
+		"                     </font>\r\n" + 
+		"                  </CheckBox>\r\n" + 
+		"                  <ComboBox fx:id=\"bankComboBox\" layoutX=\"387.0\" layoutY=\"82.0\" prefWidth=\"150.0\" promptText=\"Automatic\" />\r\n" + 
+		"                  <Label fx:id=\"bankLabel\" layoutX=\"399.0\" layoutY=\"50.0\" prefHeight=\"38.0\" prefWidth=\"133.0\" text=\"BANK AT\" textFill=\"#868585\">\r\n" + 
+		"                     <font>\r\n" + 
+		"                        <Font name=\"System Bold Italic\" size=\"26.0\" />\r\n" + 
+		"                     </font>\r\n" + 
+		"                  </Label>         \r\n" + 
 		"               </children>\r\n" + 
 		"            </Pane>\r\n" + 
 		"            <Pane id=\"mainPane\" fx:id=\"mainPane\" prefHeight=\"393.0\" prefWidth=\"599.0\" styleClass=\"root\">\r\n" + 
@@ -203,34 +247,6 @@ public static String get = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
 		"                        <Font size=\"14.0\" />\r\n" + 
 		"                     </font>\r\n" + 
 		"                  </Button>\r\n" + 
-		"               </children>\r\n" + 
-		"            </Pane>\r\n" + 
-		"            <Pane id=\"misc_pane\" fx:id=\"miscPane\" prefHeight=\"393.0\" prefWidth=\"599.0\" styleClass=\"root\">\r\n" + 
-		"               <children>\r\n" + 
-		"                  <Label fx:id=\"eatAtTitle\" layoutX=\"108.0\" layoutY=\"42.0\" text=\"EAT AT\" textFill=\"WHITE\">\r\n" + 
-		"                     <font>\r\n" + 
-		"                        <Font name=\"System Bold\" size=\"20.0\" />\r\n" + 
-		"                     </font>\r\n" + 
-		"                  </Label>\r\n" + 
-		"                  <CheckBox fx:id=\"disableDelayCheckBox\" layoutX=\"14.0\" layoutY=\"173.0\" mnemonicParsing=\"false\" text=\"Disable ABC2 Delay\" textFill=\"WHITE\">\r\n" + 
-		"                     <font>\r\n" + 
-		"                        <Font name=\"System Bold\" size=\"18.0\" />\r\n" + 
-		"                     </font>\r\n" + 
-		"                  </CheckBox>\r\n" + 
-		"                  <ImageView fx:id=\"eatAtImage\" fitHeight=\"58.0\" fitWidth=\"65.0\" layoutX=\"14.0\" layoutY=\"28.0\" pickOnBounds=\"true\" preserveRatio=\"true\" />\r\n" + 
-		"                  <TextField fx:id=\"eatAtField\" layoutX=\"193.0\" layoutY=\"36.0\" prefHeight=\"42.0\" prefWidth=\"65.0\" style=\"-fx-background-color: #616161; -fx-border-color: black;\" text=\"45\">\r\n" + 
-		"                     <effect>\r\n" + 
-		"                        <InnerShadow />\r\n" + 
-		"                     </effect>\r\n" + 
-		"                     <font>\r\n" + 
-		"                        <Font size=\"14.0\" />\r\n" + 
-		"                     </font>\r\n" + 
-		"                  </TextField>\r\n" + 
-		"                  <Label fx:id=\"percentTitle\" layoutX=\"237.0\" layoutY=\"47.0\" text=\"\\%\" textFill=\"WHITE\">\r\n" + 
-		"                     <font>\r\n" + 
-		"                        <Font name=\"System Bold\" size=\"14.0\" />\r\n" + 
-		"                     </font>\r\n" + 
-		"                  </Label>         \r\n" + 
 		"               </children>\r\n" + 
 		"            </Pane>\r\n" + 
 		"         </children></AnchorPane>\r\n" + 
