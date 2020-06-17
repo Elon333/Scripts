@@ -147,10 +147,10 @@ public final class AntiBan {
 
 	public static void destroy() {
 
+		if (abc != null)
 		abc.close();
 
 		abc = null;
-
 	}
 
 	public static void create() {
