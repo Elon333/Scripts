@@ -23,7 +23,7 @@ public class Utils {
 		return Timing.waitCondition(() -> {
 			General.sleep(100, 400);
 			return (condition.getAsBoolean());
-		}, General.random(4000, 6500));
+		}, General.random(4200, 6500));
 	}
 
 
