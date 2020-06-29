@@ -21,16 +21,16 @@ public class Utils {
 
 	public static boolean waitCondtion(BooleanSupplier condition) {
 		return Timing.waitCondition(() -> {
-			General.sleep(80, 350);
+			General.sleep(100, 400);
 			return (condition.getAsBoolean());
-		}, General.random(4000, 6000));
+		}, General.random(4000, 6500));
 	}
 
 
 
 	public static boolean waitCondtion(BooleanSupplier condition, int min, int max) {
 		return Timing.waitCondition(() -> {
-			General.sleep(80, 350);
+			General.sleep(100, 400);
 			return (condition.getAsBoolean());
 		}, General.random(min, max));
 	}
